@@ -142,8 +142,8 @@ public class Harness {
 
         Node n = new Node(2914, "Amaroo");
         Node n2 = new Node(2914, "Bonner");
-//        System.out.println(n.hashCode());
-//        System.out.println(n2.hashCode());
+        System.out.println(n.hashCode());
+        System.out.println(n2.hashCode());
 
         try {
             // Test the getDestination method
@@ -170,6 +170,8 @@ public class Harness {
         // Test adding nodes to the graph
         graph.addNode(Amaroo);
         graph.getNodeNames().size();
+
+        System.out.println(graph.getNode("Amaroo"));
 
         // Test adding edges to the graph
         graph.addEdge(Amaroo, Bonner, 2.0);

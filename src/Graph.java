@@ -1,6 +1,7 @@
 import java.nio.file.Files;
 import java.util.HashMap;
 
+// TODO: 9/5/2023 implement removeNode 
 public class Graph {
 
     //Attributes
@@ -8,14 +9,28 @@ public class Graph {
     protected HashMap<String, Node> nodeNames;
 
     //Methods
-    public void addNode(Node n) {
+    public Graph() {
+        this.nodeNames = new HashMap<>();
 
+    }
+
+    public void addNode(Node n) {
+        nodeNames.put(n.getSuburb(),n);
     }
 
     public void addEdge(Node from, Node to, double distance){
+        Edge e = new Edge(to, distance);
+        if(!from.getAdj().contains(e) || !to.getAdj().contains(e)){
+            from.addAdj(e);
+        }
     }
 
-    public void removeEdge(Node from, Node to, double distance){}
+    public void removeEdge(Node from, Node to, double distance){
+        Edge e = new Edge(to, distance);
+        if(from.getAdj().contains(e) || to.getAdj().contains(e)){
+            from.removeAdj(e);
+        }
+    }
     public void removeNode(Node node){
     }
 

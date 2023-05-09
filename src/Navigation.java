@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+// TODO: 9/5/2023 TODO: loadData(), getAllAmenities(), getAlLSuburbs(), addToVisitedPlaces(),getVisitedPlaces(), getDate(), getShortestPath(),calculateDistanceToAmenities() 
 public class Navigation {
 
     //Attributes
@@ -12,6 +13,12 @@ public class Navigation {
     protected ArrayList<PlacesVisited> visited;
 
     //Methods
+
+
+    public Navigation() {
+        this.graph = new Graph();
+        this.visited = new ArrayList<>();
+    }
 
     public void loadData(){}
 

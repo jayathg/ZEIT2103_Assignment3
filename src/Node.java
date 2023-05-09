@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 9/5/2023 equals(), removeAdj() 
 public class Node {
 
     //Attributes
@@ -12,11 +13,15 @@ public class Node {
     private ArrayList<Edge> adj;
 
     private ArrayList<String> amenity;
+
     //Methods
 
     public Node(int postCode, String suburb) {
         this.postCode = postCode;
         this.suburb = suburb;
+        this.adj = new ArrayList<>();
+        this.amenity = new ArrayList<>();
+
     }
 
     public String getSuburb() {
@@ -28,19 +33,22 @@ public class Node {
         return postCode;
     }
 
-
+    public void addAdj(Edge e){
+        adj.add(e);
+    }
     public ArrayList<Edge> getAdj() {
         return adj;
     }
 
     public void setPostcode(int Postcode) {
+        this.postCode = Postcode;
     }
     public void addAmenity(String Amenity) {
         amenity.add(Amenity);
     }
 
     public List<String> getAmenity() {
-        return null;
+        return amenity;
     }
 
     public void removeAmenity(String Amenity) {
@@ -49,18 +57,69 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Suburb: " + suburb +"\n Postcode: " + postCode;
+        return "Node{" +
+                "postCode=" + postCode +
+                ", suburb='" + suburb + '\'' +
+                ", adj=" + adj +
+                ", amenity=" + amenity +
+                '}';
     }
 
-    //Need to implement
     @Override
     public int hashCode() {
-        return 0;
+        String hashString = this.suburb + this.postCode;
+        //Pads the hashString to be an even length
+        if(hashString.length() % 2 == 1){
+            hashString = hashString + 0;
+        }
+        //Converts hashString to an integer
+        int hashInt = 0;
+        for (int i = 0; i < hashString.length(); i++) {
+            hashInt += hashString.charAt(i);
+        }
+        //Take hashString value and squares it
+        String squareHash = String.valueOf(hashInt * hashInt);
+        //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
+        int[] hashArr = new int[squareHash.length()/2];
+        for (int i = 0; i < squareHash.length()/2; i++) {
+            hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
+        }
+        int tempInt = 0;
+        for (int j : hashArr) {
+            tempInt = tempInt * 10 + j;
+        }
+        //Square result
+        squareHash = String.valueOf(tempInt * tempInt);
+        //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
+        hashArr = new int[squareHash.length()/2];
+        for (int i = 0; i < squareHash.length()/2; i++) {
+            hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
+        }
+        tempInt = 0;
+        for (int j : hashArr) {
+            tempInt = tempInt * 10 + j;
+        }
+        return tempInt;
     }
 
-    //Need to implement
+
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(this.hashCode() == obj.hashCode()){
+            return true;
+        }
+        if(obj.getClass() == this.getClass()){
+            if((((Node) obj).postCode == this.postCode) &&(((Node) obj).suburb == this.suburb)
+                    && (((Node) obj).adj == this.adj) &&(((Node) obj).amenity == this.amenity)) {
+                return true;
+            }
+        }else{
+            return false;
+
+        }
+        return false;
+    }
+
+    public void removeAdj(Edge e) {
     }
 }
