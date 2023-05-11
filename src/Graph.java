@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// TODO: 9/5/2023 implement removeNode 
 public class Graph {
 
     //Attributes
@@ -32,9 +31,10 @@ public class Graph {
         }
     }
     public void removeNode(Node node){
-        for(Edge edge :node.getAdj() ){
+        for(Edge edge : node.getAdj() ){
              node.removeAdj(edge);
         }
+        nodeNames.remove(node);
     }
 
     public Node getNode(String name){
