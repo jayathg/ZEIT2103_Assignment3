@@ -11,7 +11,6 @@ public class Graph {
     //Methods
     public Graph() {
         this.nodeNames = new HashMap<>();
-
     }
 
     public void addNode(Node n) {

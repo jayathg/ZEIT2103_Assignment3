@@ -203,9 +203,9 @@ public class Harness {
         Navigation n = new Navigation();
 
         Set<String> resultAmenities = n.getAllAmenities(2914);
-
+        System.out.println(resultAmenities);
         List<String> result = n.getAllSuburbs("Swimming Pool");
-
+        System.out.println(result);
     }
 
     /**
