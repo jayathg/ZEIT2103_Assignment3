@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 9/5/2023 equals(), removeAdj() 
 public class Node {
 
     //Attributes
@@ -105,21 +104,13 @@ public class Node {
 
     @Override
     public boolean equals(Object obj) {
-        if(this.hashCode() == obj.hashCode()){
-            return true;
-        }
-        if(obj.getClass() == this.getClass()){
-            if((((Node) obj).postCode == this.postCode) &&(((Node) obj).suburb == this.suburb)
-                    && (((Node) obj).adj == this.adj) &&(((Node) obj).amenity == this.amenity)) {
-                return true;
-            }
-        }else{
+        if(obj.getClass() != this.getClass()){
             return false;
-
         }
-        return false;
+        return ((Node) obj).adj == this.adj && ((Node) obj).amenity == this.amenity && ((Node) obj).postCode == this.postCode && ((Node) obj).suburb.equals(this.suburb);
     }
 
     public void removeAdj(Edge e) {
+        adj.remove(e);
     }
 }
