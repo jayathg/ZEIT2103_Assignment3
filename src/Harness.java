@@ -203,9 +203,9 @@ public class Harness {
         Navigation n = new Navigation();
 
         Set<String> resultAmenities = n.getAllAmenities(2914);
-
+        System.out.println(resultAmenities);
         List<String> result = n.getAllSuburbs("Swimming Pool");
-
+        System.out.println(result);
     }
 
     /**
@@ -227,11 +227,11 @@ public class Harness {
         Navigation n = new Navigation();
         n.addToVisitedPlaces("Amaroo", LocalDate.parse("2019-10-30"));
         n.addToVisitedPlaces("Gungahlin", LocalDate.parse("2018-10-30"));
-
+        n.addToVisitedPlaces("Ford", LocalDate.parse("2023-10-10"));
         List<PlacesVisited> output = n.getVisitedPlaces();
-
+        System.out.println(output);
         List<LocalDate> outputDate = n.getDate("Ford");
-
+        System.out.println(outputDate);
     }
 
     /**

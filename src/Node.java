@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Node {
 
@@ -33,7 +34,9 @@ public class Node {
     }
 
     public void addAdj(Edge e){
-        adj.add(e);
+        if(!adj.contains(e)) {
+            adj.add(e);
+        }
     }
     public ArrayList<Edge> getAdj() {
         return adj;
@@ -102,13 +105,20 @@ public class Node {
     }
 
 
+
     @Override
     public boolean equals(Object obj) {
-        if(obj.getClass() != this.getClass()){
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
             return false;
-        }
-        return ((Node) obj).adj == this.adj && ((Node) obj).amenity == this.amenity && ((Node) obj).postCode == this.postCode && ((Node) obj).suburb.equals(this.suburb);
+        Node node = (Node) obj;
+        return postCode == node.postCode &&
+                Objects.equals(suburb, node.suburb) &&
+                Objects.equals(adj, node.adj) &&
+                Objects.equals(amenity, node.amenity);
     }
+
 
     public void removeAdj(Edge e) {
         adj.remove(e);

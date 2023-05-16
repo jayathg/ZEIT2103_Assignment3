@@ -1,0 +1,29 @@
+City:Turkish Resturant,Swimming Pool,Patrol Station,Hotel,Post Office,Bank
+Acton:School,Macdonald,Patrol Station,Post Office
+Reid:Kids Playgrounds,Woolworth,Coles,Aldi,Bank
+Campbell:School,Kids Playgrounds,Post Office
+Russell:
+Turner:School,Kids Playgrounds,Swimming Pool,Patrol Station
+Braddon:Kids Playgrounds,Macdonald,Swimming Pool,Gym,Patrol Station,Hotel,Post Office
+O'Connor:Patrol Station
+Ainslie:Post Office
+Lynam:Kids Playgrounds,Turkish Resturant,Patrol Station
+Dickson:Macdonald,Woolworth,Coles,Aldi,Swimming Pool,Gym,Patrol Station,Hotel,Post Office,Bank
+Downer:
+Watson:School,Kids Playgrounds
+Hacket:
+Mitchell:Woolworth,Gym,Patrol Station,Post Office
+Franklin:Kids Playgrounds,Gym,Post Office
+Harrison:School,Swimming Pool,Cinema,Gym
+Gungahlin:Kids Playgrounds,Macdonald,Turkish Resturant,Woolworth,Coles,Aldi,Patrol Station,Hotel,Post Office,Bank
+Palmerston:School,Kids Playgrounds
+Crace:Kids Playgrounds,Coles,Gym,Patrol Station
+Amaroo:School,Swimming Pool,Gym,Patrol Station
+Ford:
+Ngunnawal:School,Aldi
+Casey:Kids Playgrounds,Turkish Resturant,Gym,Patrol Station,Post Office,
+Nicholls:School
+Barton:Coles,Patrol Station
+Bruce:Hospital,AIS,Macdonald,Swimming Pool,Cinema,Gym,Patrol Station,Post Office,Bank
+Garren:Hospital,Macdonald,Turkish Resturant,Patrol Station,Post Office,Bank
+Canberra Airport:Airport,Patrol Station,Hotel
