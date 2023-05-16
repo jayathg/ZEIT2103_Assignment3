@@ -69,9 +69,7 @@ public class Navigation {
             }
             br.close();
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -98,10 +96,28 @@ public class Navigation {
     }
 
     public void addToVisitedPlaces(String location, LocalDate time){
+        PlacesVisited placesVisited = new PlacesVisited(location, time);
+        visited.add(placesVisited);
     }
 
     public List <PlacesVisited> getVisitedPlaces(){
-        return null;
+        List<PlacesVisited> visitedPlaces = new ArrayList<>();
+        for (PlacesVisited placesVisited : visited) {
+            boolean isInserted = false;
+            for (int i = 0; i < visitedPlaces.size(); i++) {
+                if (placesVisited.getDate().isAfter(visitedPlaces.get(i).getDate())) {
+                    visitedPlaces.add(i, placesVisited);
+                    isInserted = true;
+                    break;
+                }
+            }
+            if (!isInserted) {
+                visitedPlaces.add(placesVisited);
+            }
+        }
+
+        return visitedPlaces;
+
     }
 
     public List <LocalDate> getDate(String location){

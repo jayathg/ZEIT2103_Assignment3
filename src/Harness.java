@@ -229,9 +229,9 @@ public class Harness {
         n.addToVisitedPlaces("Gungahlin", LocalDate.parse("2018-10-30"));
 
         List<PlacesVisited> output = n.getVisitedPlaces();
-
+        System.out.println(output);
         List<LocalDate> outputDate = n.getDate("Ford");
-
+        System.out.println(outputDate);
     }
 
     /**
