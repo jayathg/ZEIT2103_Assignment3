@@ -55,7 +55,7 @@ public class Navigation {
                 String nodeName = lineItems[0];
                 int colonIndex = nodeName.indexOf(':');
 
-                if(colonIndex != -1 && colonIndex != nodeName.length()){
+                if(colonIndex != -1){
                     Node node = graph.getNode(nodeName.substring(0, colonIndex));
                     String firstAmenity = nodeName.substring(colonIndex + 1);
                     if (!firstAmenity.isEmpty()) {
@@ -121,7 +121,16 @@ public class Navigation {
     }
 
     public List <LocalDate> getDate(String location){
-        return null;
+        List<LocalDate> daysVisited = new ArrayList<>();
+        for (PlacesVisited placesVisited : visited) {
+            if(placesVisited.getLocation().equals(location)){
+                daysVisited.add(placesVisited.getDate());
+            }
+        }
+        if(daysVisited.isEmpty()){
+            throw new IllegalArgumentException("The place has never been visited");
+        }
+        return daysVisited;
     }
 
     public static List <String> getShortestPath(Node source, Node target){
