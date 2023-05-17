@@ -4,7 +4,6 @@ import java.util.HashMap;
 public class Graph {
 
     //Attributes
-
     protected HashMap<String, Node> nodeNames;
 
     //Methods

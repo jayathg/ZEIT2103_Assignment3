@@ -36,6 +36,7 @@ public class Node {
     public void addAdj(Edge e){
         if(!adj.contains(e)) {
             adj.add(e);
+
         }
     }
     public ArrayList<Edge> getAdj() {
@@ -62,8 +63,6 @@ public class Node {
         return "Node{" +
                 "postCode=" + postCode +
                 ", suburb='" + suburb + '\'' +
-                ", adj=" + adj +
-                ", amenity=" + amenity +
                 '}';
     }
 

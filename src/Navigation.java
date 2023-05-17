@@ -1,8 +1,8 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
 
-// TODO: 9/5/2023 TODO: loadData(), getAllAmenities(), getAlLSuburbs(), addToVisitedPlaces(),getVisitedPlaces(), getDate(), getShortestPath(),calculateDistanceToAmenities() 
 public class Navigation {
 
     //Attributes
@@ -26,15 +26,33 @@ public class Navigation {
             File suburbsFile = new File("Files/suburbs_dist.txt");
             BufferedReader br = new BufferedReader(new FileReader(suburbsFile));
             String suburbDets = br.readLine();
+            List<Node> nodesInOrder = new ArrayList<>();
+
+            // First pass - add nodes
             while(suburbDets != null){
                 String[] lineItems = suburbDets.split("\t");
                 Node n = new Node(Integer.parseInt(lineItems[0]), lineItems[1]);
                 graph.addNode(n);
+                nodesInOrder.add(n); // keep track of the order of nodes
+                suburbDets = br.readLine();
+            }
 
-                //Add Adjacency
+// Close and reopen the reader
+            br.close();
+            br = new BufferedReader(new FileReader(suburbsFile));
+
+// Reset suburbDets for the second pass
+            suburbDets = br.readLine();
+
+// Second pass - add edges
+            while(suburbDets != null){
+                String[] lineItems = suburbDets.split("\t");
+                Node n = nodesInOrder.get(nodesInOrder.indexOf(new Node(Integer.parseInt(lineItems[0]), lineItems[1])));
+
+                // Add Adjacency
                 for (int j = 2; j < lineItems.length; j++) {
-                    if(!lineItems[j].equals("") && !lineItems[j].equals("0")){
-                        Node adjNode = graph.nodeNames.get(j-2);
+                    if(!lineItems[j].isEmpty() && !lineItems[j].equals("0")){
+                        Node adjNode = nodesInOrder.get(j-2); // get the node from the list
                         Edge e = new Edge(adjNode,Double.parseDouble(lineItems[j]));
                         if(!n.getAdj().contains(e)){
                             n.addAdj(e);
@@ -42,10 +60,9 @@ public class Navigation {
                         }
                     }
                 }
-
                 suburbDets = br.readLine();
             }
-            br.close();
+
             //Add Amenities
             File amenitiesFile = new File("Files/amenities.txt");
             br = new BufferedReader(new FileReader(amenitiesFile));
@@ -133,11 +150,94 @@ public class Navigation {
         return daysVisited;
     }
 
-    public static List <String> getShortestPath(Node source, Node target){
-        return null;
+    public Map<String, Object> calculateShortestDistances(Node source) {
+        Map<String, Double> distance = new HashMap<>();
+        Map<String, String> previous = new HashMap<>();
+        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparing(node -> distance.get(node.getSuburb())));
+
+        // Initialize distances to infinity and previous nodes to null
+        for (Node node : graph.nodeNames.values()) {
+            distance.put(node.getSuburb(), Double.MAX_VALUE);
+            previous.put(node.getSuburb(), null);
+        }
+
+        // The distance from the source to itself is 0
+        distance.put(source.getSuburb(), 0.0);
+        queue.add(source);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+
+            for (Edge edge : current.getAdj()) {
+                Node neighbor = edge.getDestination();
+                double newDistance = distance.get(current.getSuburb()) + edge.getDistance();
+
+                if (newDistance < distance.get(neighbor.getSuburb())) {
+                    distance.put(neighbor.getSuburb(), newDistance);
+                    previous.put(neighbor.getSuburb(), current.getSuburb());
+
+                    // Reorder the queue
+                    queue.remove(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        Map<String, Object> results = new HashMap<>();
+        results.put("distance", distance);
+        results.put("previous", previous);
+
+        return results;
+    }
+
+    public List<String> getShortestPath(Node source, Node target){
+        Map<String, Object> results = calculateShortestDistances(source);
+        Map<String, String> previous = (Map<String, String>) results.get("previous");
+
+        // Build the shortest path from the source to the destination
+        List<String> path = new LinkedList<>();
+        for (String node = target.getSuburb(); node != null; node = previous.get(node)) {
+            path.add(0, node);
+        }
+
+        if (path.get(0).equals(source.getSuburb())) {
+            return path;
+        } else {
+            throw new RuntimeException("No path exists from " + source.getSuburb() + " to " + target);
+        }
     }
 
     public List<String> calculateDistanceToAmenity(Node source, String amenity){
-        return null;
+        Map<String, Object> results = calculateShortestDistances(source);
+        Map<String, String> previous = (Map<String, String>) results.get("previous");
+        Map<String, Double> distances = (Map<String, Double>) results.get("distance");
+
+        Node closestAmenityNode = null;
+        Double shortestDistance = Double.MAX_VALUE;
+
+        // Find the nearest node with the amenity
+        for (Node node : graph.nodeNames.values()) {
+            if (node.getAmenity().contains(amenity)) {
+                Double distanceToNode = distances.get(node.getSuburb());
+                if(distanceToNode < shortestDistance){
+                    shortestDistance = distanceToNode;
+                    closestAmenityNode = node;
+                }
+            }
+        }
+
+        if (closestAmenityNode == null) {
+            throw new RuntimeException("No path exists from " + source.getSuburb() + " to any node with the amenity");
+        }
+
+        // Build the shortest path from the source to the destination
+        List<String> path = new LinkedList<>();
+        for (String node = closestAmenityNode.getSuburb(); node != null; node = previous.get(node)) {
+            path.add(0, node);
+        }
+        path.add(String.valueOf(shortestDistance));
+        return path;
     }
+
+
 }
