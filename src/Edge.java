@@ -9,7 +9,7 @@ public class Edge {
     //Methods
 
     public Edge(Node destination, double distance) {
-        this.destination =destination;
+        this.destination = destination;
         this.distance = distance;
     }
 

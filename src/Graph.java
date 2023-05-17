@@ -1,11 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// TODO: 9/5/2023 implement removeNode 
 public class Graph {
 
     //Attributes
-
     protected HashMap<String, Node> nodeNames;
 
     //Methods
