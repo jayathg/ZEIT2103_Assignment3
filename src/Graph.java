@@ -29,9 +29,10 @@ public class Graph {
         }
     }
     public void removeNode(Node node){
-        for(Edge edge :node.getAdj() ){
+        for(Edge edge : node.getAdj() ){
              node.removeAdj(edge);
         }
+        nodeNames.remove(node);
     }
 
     public Node getNode(String name){

@@ -13,6 +13,7 @@ class NavigationTest {
     }
 
     @Test
+ 
     void loadData_ValidFile_True(){
         Navigation nav = new Navigation();
         assertFalse(nav.graph.nodeNames.isEmpty());
@@ -103,7 +104,8 @@ class NavigationTest {
         }
     }
 
-    @Test
+
+  @Test
     void getVisitedPlaces_NoPlaces_False(){
         Navigation nav = new Navigation();
         assertThrows(IllegalArgumentException.class, nav::getVisitedPlaces);

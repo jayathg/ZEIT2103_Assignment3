@@ -1,10 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class NodeTest {
