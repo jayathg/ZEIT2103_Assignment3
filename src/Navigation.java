@@ -1,5 +1,7 @@
 import java.io.*;
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -56,7 +58,6 @@ public class Navigation {
                         Edge e = new Edge(adjNode,Double.parseDouble(lineItems[j]));
                         if(!n.getAdj().contains(e)){
                             n.addAdj(e);
-                            graph.addEdge(n, adjNode, Double.parseDouble(lineItems[j]));
                         }
                     }
                 }
@@ -99,6 +100,9 @@ public class Navigation {
                 amenitiesSet.addAll(node.getAmenity());
             }
         }
+        if(amenitiesSet.isEmpty()){
+            throw new IllegalArgumentException("Postcode does not have any amenities");
+        }
         return amenitiesSet;
     }
 
@@ -109,12 +113,20 @@ public class Navigation {
                 locationList.add(node.getSuburb());
             }
         }
+        if(locationList.isEmpty()){
+            throw new IllegalArgumentException("Amenity is unavailable");
+        }
         return locationList;
     }
 
     public void addToVisitedPlaces(String location, LocalDate time){
-        PlacesVisited placesVisited = new PlacesVisited(location, time);
-        visited.add(placesVisited);
+        if(graph.nodeNames.containsKey(location)){
+            PlacesVisited placesVisited = new PlacesVisited(location, time);
+            visited.add(placesVisited);
+        }else {
+            throw new IllegalArgumentException("Invalid Details");
+        }
+
     }
 
     public List <PlacesVisited> getVisitedPlaces(){
@@ -132,12 +144,17 @@ public class Navigation {
                 visitedPlaces.add(placesVisited);
             }
         }
-
+        if(visitedPlaces.isEmpty()){
+            throw new IllegalArgumentException("Empty visitedPlaces ArrayList");
+        }
         return visitedPlaces;
 
     }
 
     public List <LocalDate> getDate(String location){
+        if(!graph.nodeNames.containsKey(location)){
+            throw new IllegalArgumentException("Location does not exist");
+        }
         List<LocalDate> daysVisited = new ArrayList<>();
         for (PlacesVisited placesVisited : visited) {
             if(placesVisited.getLocation().equals(location)){
@@ -151,6 +168,9 @@ public class Navigation {
     }
 
     public Map<String, Object> calculateShortestDistances(Node source) {
+        if(!graph.nodeNames.containsKey(source.getSuburb())){
+            throw new IllegalArgumentException("Source is not part of graph");
+        }
         Map<String, Double> distance = new HashMap<>();
         Map<String, String> previous = new HashMap<>();
         PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparing(node -> distance.get(node.getSuburb())));
@@ -191,6 +211,9 @@ public class Navigation {
     }
 
     public List<String> getShortestPath(Node source, Node target){
+        if(!graph.nodeNames.containsKey(source.getSuburb()) || !graph.nodeNames.containsKey(target.getSuburb())){
+            throw new IllegalArgumentException("Source is not part of graph");
+        }
         Map<String, Object> results = calculateShortestDistances(source);
         Map<String, String> previous = (Map<String, String>) results.get("previous");
 
@@ -208,6 +231,9 @@ public class Navigation {
     }
 
     public List<String> calculateDistanceToAmenity(Node source, String amenity){
+        if(!graph.nodeNames.containsKey(source.getSuburb())){
+            throw new IllegalArgumentException("Source is not part of graph");
+        }
         Map<String, Object> results = calculateShortestDistances(source);
         Map<String, String> previous = (Map<String, String>) results.get("previous");
         Map<String, Double> distances = (Map<String, Double>) results.get("distance");
@@ -227,7 +253,7 @@ public class Navigation {
         }
 
         if (closestAmenityNode == null) {
-            throw new RuntimeException("No path exists from " + source.getSuburb() + " to any node with the amenity");
+            throw new IllegalArgumentException("No path exists from " + source.getSuburb() + " to any node with the amenity");
         }
 
         // Build the shortest path from the source to the destination
@@ -235,6 +261,13 @@ public class Navigation {
         for (String node = closestAmenityNode.getSuburb(); node != null; node = previous.get(node)) {
             path.add(0, node);
         }
+        BigDecimal bd = new BigDecimal(shortestDistance);
+        if(shortestDistance < 10){
+            bd = bd.round(new MathContext(2));
+        }else{
+            bd = bd.round(new MathContext(3));
+        }
+        shortestDistance = bd.doubleValue();
         path.add(String.valueOf(shortestDistance));
         return path;
     }
