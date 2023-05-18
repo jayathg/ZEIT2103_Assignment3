@@ -83,7 +83,7 @@ public class Node {
         //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
         int[] hashArr = new int[squareHash.length()/2];
         for (int i = 0; i < squareHash.length()/2; i++) {
-            hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
+            hashArr[i] = (Integer.parseInt(String.valueOf(squareHash.charAt(i))) + Integer.parseInt(String.valueOf(squareHash.charAt(squareHash.length()-(i+1))))) % 10;
         }
         int tempInt = 0;
         for (int j : hashArr) {
@@ -94,7 +94,7 @@ public class Node {
         //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
         hashArr = new int[squareHash.length()/2];
         for (int i = 0; i < squareHash.length()/2; i++) {
-            hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
+            hashArr[i] = (Integer.parseInt(String.valueOf(squareHash.charAt(i))) + Integer.parseInt(String.valueOf(squareHash.charAt(squareHash.length()-(i+1))))) % 10;
         }
         tempInt = 0;
         for (int j : hashArr) {
