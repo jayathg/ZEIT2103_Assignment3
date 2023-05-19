@@ -1,27 +1,23 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-// TODO: 9/5/2023 equals(), removeAdj() 
 public class Node {
 
-    //Attributes
-
     private int postCode;
-
     private String suburb;
-
     private ArrayList<Edge> adj;
-
     private ArrayList<String> amenity;
 
-    //Methods
-
     public Node(int postCode, String suburb) {
+        if(String.valueOf(postCode).length() != 4) {
+            throw new IllegalArgumentException("Postcode must be 4 digits long");
+        }
+
         this.postCode = postCode;
         this.suburb = suburb;
         this.adj = new ArrayList<>();
         this.amenity = new ArrayList<>();
-
     }
 
     public String getSuburb() {
@@ -34,15 +30,31 @@ public class Node {
     }
 
     public void addAdj(Edge e){
+        if (e.getDestination().equals(this)) {
+            throw new IllegalArgumentException("Node cannot be adjacent to itself");
+        }
+
+        for (Edge edge: adj) {
+            if (edge.getDestination().equals(e.getDestination())) {
+                throw new IllegalArgumentException("This edge is already present in adjacency list");
+            }
+        }
+
         adj.add(e);
     }
+
     public ArrayList<Edge> getAdj() {
         return adj;
     }
 
-    public void setPostcode(int Postcode) {
-        this.postCode = Postcode;
+    public void setPostcode(int postCode) {
+        if(String.valueOf(postCode).length() != 4) {
+            throw new IllegalArgumentException("Postcode must be 4 digits long");
+        }
+
+        this.postCode = postCode;
     }
+
     public void addAmenity(String Amenity) {
         amenity.add(Amenity);
     }
@@ -68,58 +80,68 @@ public class Node {
     @Override
     public int hashCode() {
         String hashString = this.suburb + this.postCode;
+
         //Pads the hashString to be an even length
         if(hashString.length() % 2 == 1){
             hashString = hashString + 0;
         }
+
         //Converts hashString to an integer
         int hashInt = 0;
         for (int i = 0; i < hashString.length(); i++) {
             hashInt += hashString.charAt(i);
         }
+
         //Take hashString value and squares it
         String squareHash = String.valueOf(hashInt * hashInt);
+
         //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
         int[] hashArr = new int[squareHash.length()/2];
         for (int i = 0; i < squareHash.length()/2; i++) {
             hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
         }
+
         int tempInt = 0;
         for (int j : hashArr) {
             tempInt = tempInt * 10 + j;
         }
+
         //Square result
         squareHash = String.valueOf(tempInt * tempInt);
+
         //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
         hashArr = new int[squareHash.length()/2];
         for (int i = 0; i < squareHash.length()/2; i++) {
             hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
         }
+
         tempInt = 0;
         for (int j : hashArr) {
             tempInt = tempInt * 10 + j;
         }
+
         return tempInt;
     }
 
 
     @Override
     public boolean equals(Object obj) {
-        if(this.hashCode() == obj.hashCode()){
+        if (this == obj) {
             return true;
         }
-        if(obj.getClass() == this.getClass()){
-            if((((Node) obj).postCode == this.postCode) &&(((Node) obj).suburb == this.suburb)
-                    && (((Node) obj).adj == this.adj) &&(((Node) obj).amenity == this.amenity)) {
-                return true;
-            }
-        }else{
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
-
         }
-        return false;
+
+        Node node = (Node) obj;
+
+        return postCode == node.postCode &&
+                suburb.equals(node.suburb) &&
+                adj.equals(node.adj) &&
+                amenity.equals(node.amenity);
     }
 
     public void removeAdj(Edge e) {
+        adj.remove(e);
     }
 }

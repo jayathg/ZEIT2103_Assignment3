@@ -18,6 +18,7 @@ class NodeTest {
 
     @Test
     void setValidAdj() {
+        //check for duplicates
         Node node1 = new Node(1234, "Test Suburb 1");
         Node node2 = new Node(5432, "Test Suburb 2");
         Edge edge = new Edge(node2, 10.5);
@@ -40,6 +41,7 @@ class NodeTest {
 
     @Test
     void getAdj() {
+        //check for duplicates
         Node node1 = new Node(1234, "Test Suburb 1");
         Node node2 = new Node(5432, "Test Suburb 2");
         Edge edge = new Edge(node2, 10.5);
@@ -64,22 +66,22 @@ class NodeTest {
 
     @Test
     void addAmenity() {
-        // check
-        Node node = new Node(12345, "Test Suburb");
+        //check for duplicates
+        Node node = new Node(1234, "Test Suburb");
         node.addAmenity("School");
         assertTrue(node.getAmenity().contains("School"));
     }
 
     @Test
     void getAmenity() {
-        Node node = new Node(12345, "Test Suburb");
+        Node node = new Node(1234, "Test Suburb");
         node.addAmenity("School");
         assertTrue(node.getAmenity().contains("School"));
     }
 
     @Test
     void removeAmenity() {
-        Node node = new Node(12345, "Test Suburb");
+        Node node = new Node(1234, "Test Suburb");
         node.addAmenity("School");
         node.removeAmenity("School");
         assertFalse(node.getAmenity().contains("School"));
@@ -87,9 +89,9 @@ class NodeTest {
 
     @Test
     void testToString() {
-        Node node = new Node(12345, "Test Suburb");
+        Node node = new Node(1234, "Test Suburb");
         String expected = "Node{" +
-                "postCode=" + 12345 +
+                "postCode=" + 1234 +
                 ", suburb='Test Suburb" + '\'' +
                 ", adj=" + new ArrayList<>() +
                 ", amenity=" + new ArrayList<>() +

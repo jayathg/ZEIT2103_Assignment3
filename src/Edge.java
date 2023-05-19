@@ -1,12 +1,9 @@
+import java.util.Objects;
+
 public class Edge {
 
-    //Attributes
-
     private Node destination;
-
     private Double distance;
-
-    //Methods
 
     public Edge(Node destination, double distance) {
         this.destination =destination;
@@ -24,5 +21,21 @@ public class Edge {
     @Override
     public String toString() {
         return "Destination: " + destination + "\nDistance: " + distance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Edge edge = (Edge) o;
+
+        return Objects.equals(destination, edge.destination) &&
+                Objects.equals(distance, edge.distance);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(destination, distance);
     }
 }
