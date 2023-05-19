@@ -6,7 +6,7 @@ public class Edge {
     private Double distance;
 
     public Edge(Node destination, double distance) {
-        this.destination =destination;
+        this.destination = destination;
         this.distance = distance;
     }
 

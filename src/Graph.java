@@ -4,13 +4,11 @@ import java.util.HashMap;
 public class Graph {
 
     //Attributes
-
     protected HashMap<String, Node> nodeNames;
 
     //Methods
     public Graph() {
         this.nodeNames = new HashMap<>();
-
     }
 
     public void addNode(Node n) {

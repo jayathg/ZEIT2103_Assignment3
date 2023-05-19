@@ -41,6 +41,7 @@ public class Node {
         }
 
         adj.add(e);
+
     }
 
     public ArrayList<Edge> getAdj() {
@@ -72,8 +73,6 @@ public class Node {
         return "Node{" +
                 "postCode=" + postCode +
                 ", suburb='" + suburb + '\'' +
-                ", adj=" + adj +
-                ", amenity=" + amenity +
                 '}';
     }
 
@@ -98,7 +97,7 @@ public class Node {
         //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
         int[] hashArr = new int[squareHash.length()/2];
         for (int i = 0; i < squareHash.length()/2; i++) {
-            hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
+            hashArr[i] = (Integer.parseInt(String.valueOf(squareHash.charAt(i))) + Integer.parseInt(String.valueOf(squareHash.charAt(squareHash.length()-(i+1))))) % 10;
         }
 
         int tempInt = 0;
@@ -112,7 +111,7 @@ public class Node {
         //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
         hashArr = new int[squareHash.length()/2];
         for (int i = 0; i < squareHash.length()/2; i++) {
-            hashArr[i] = (squareHash.charAt(i) + squareHash.charAt(squareHash.length()-(i+1))) % 10;
+            hashArr[i] = (Integer.parseInt(String.valueOf(squareHash.charAt(i))) + Integer.parseInt(String.valueOf(squareHash.charAt(squareHash.length()-(i+1))))) % 10;
         }
 
         tempInt = 0;
@@ -124,22 +123,21 @@ public class Node {
     }
 
 
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+
+        if (this == obj)
             return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass())
             return false;
-        }
-
         Node node = (Node) obj;
-
         return postCode == node.postCode &&
-                suburb.equals(node.suburb) &&
-                adj.equals(node.adj) &&
-                amenity.equals(node.amenity);
+                Objects.equals(suburb, node.suburb) &&
+                Objects.equals(adj, node.adj) &&
+                Objects.equals(amenity, node.amenity);
     }
+
 
     public void removeAdj(Edge e) {
         adj.remove(e);
