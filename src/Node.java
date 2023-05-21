@@ -2,6 +2,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The Graph class handles how the Graph is constructed.
+ * This method adds Nodes, Edges and handles the subsequent removal methods
+ *
+ * @author Jayath Gunawardena
+ * created on 19/05/2023
+ */
 public class Node {
 
     //Attributes
@@ -16,6 +23,11 @@ public class Node {
 
     //Methods
 
+    /**
+     * Node Constructor
+     * @param postCode int Representation of the Node's postcode attribute
+     * @param suburb String Representation of the Node's suburb name attribute
+     */
     public Node(int postCode, String suburb) {
         this.postCode = postCode;
         this.suburb = suburb;
@@ -24,36 +36,69 @@ public class Node {
 
     }
 
+    /**
+     * GetSuburb method
+     * @return String Representation of the Node's suburb name attribute
+     */
     public String getSuburb() {
         return suburb;
     }
 
-
+    /**
+     * GetPostcode method
+     * @return int Representation of the Node's postcode attribute
+     */
     public int getPostcode() {
         return postCode;
     }
 
+    /**
+     * AddAdj method
+     * @param e Edge to be added to the Node's adjacency ArrayList
+     */
     public void addAdj(Edge e){
         if(!adj.contains(e)) {
             adj.add(e);
 
         }
     }
+
+    /**
+     * GetAdj method
+     * @return ArrayList of Edge's that are adjacent to the given node.
+     */
     public ArrayList<Edge> getAdj() {
         return adj;
     }
 
+    /**
+     * SetPostcode method
+     * @param Postcode int representation of the Node's postcode attribute
+     */
     public void setPostcode(int Postcode) {
         this.postCode = Postcode;
     }
+
+    /**
+     * AddAmenity method
+     * @param Amenity String representation of an amenity to be added to the Node's amenity ArrayList
+     */
     public void addAmenity(String Amenity) {
         amenity.add(Amenity);
     }
 
+    /**
+     * GetAmenity method
+     * @return List of String representations of the amenities that are in the Node's amenity ArrayList
+     */
     public List<String> getAmenity() {
         return amenity;
     }
 
+    /**
+     * RemoveAmenity method
+     * @param Amenity String representation of an amenity to be removed to the Node's amenity ArrayList
+     */
     public void removeAmenity(String Amenity) {
         amenity.remove(Amenity);
     }
