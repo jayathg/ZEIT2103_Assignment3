@@ -72,6 +72,14 @@ public class Node {
     }
 
     /**
+     * RemoveAdj method
+     * @param e Edge to be removed to the Node's adjacency ArrayList
+     */
+    public void removeAdj(Edge e) {
+        adj.remove(e);
+    }
+
+    /**
      * SetPostcode method
      * @param Postcode int representation of the Node's postcode attribute
      */
@@ -103,6 +111,10 @@ public class Node {
         amenity.remove(Amenity);
     }
 
+    /**
+     * toString method
+     * @return String representation of the Node
+     */
     @Override
     public String toString() {
         return "Node{" +
@@ -111,6 +123,10 @@ public class Node {
                 '}';
     }
 
+    /**
+     * hashCode method
+     * @return Integer representation of the Node's hashcode
+     */
     @Override
     public int hashCode() {
         String hashString = this.suburb + this.postCode;
@@ -148,8 +164,11 @@ public class Node {
         return tempInt;
     }
 
-
-
+    /**
+     * Equals method
+     * @param obj Object to compare against this node object
+     * @return Boolean dependent on if the two objects are equal
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -164,7 +183,4 @@ public class Node {
     }
 
 
-    public void removeAdj(Edge e) {
-        adj.remove(e);
-    }
 }
