@@ -1,14 +1,22 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.*;
 
+
+/**
+ * The Navigation class handles how the graph itself is used
+ * This is done through loading the graph from a file, calculating shortest path,
+ * and getting various data from the graph.
+ *
+ * @author Jayath Gunawardena
+ * created on 18/05/2023
+ */
 public class Navigation {
 
-    //Attributes
 
+    //Attributes
     protected Graph graph;
 
     protected ArrayList<PlacesVisited> visited;
@@ -16,15 +24,24 @@ public class Navigation {
     //Methods
 
 
+    /**
+     * Navigation class Constructor
+     * Creates a new graph and visited ArrayList as well as loads data from the files.
+     */
     public Navigation() {
         this.graph = new Graph();
         this.visited = new ArrayList<>();
         loadData();
     }
 
+    /**
+     * Load Data method
+     * Handles reading data from the files
+     * After the data has been read, it then populates the Graph with Nodes, Edges and Amenities
+     */
     public void loadData(){
         try{
-            //Add Nodes
+            //Add Nodes to the graph
             File suburbsFile = new File("Files/suburbs_dist.txt");
             BufferedReader br = new BufferedReader(new FileReader(suburbsFile));
             String suburbDets = br.readLine();
@@ -35,18 +52,19 @@ public class Navigation {
                 String[] lineItems = suburbDets.split("\t");
                 Node n = new Node(Integer.parseInt(lineItems[0]), lineItems[1]);
                 graph.addNode(n);
-                nodesInOrder.add(n); // keep track of the order of nodes
+                // Keeps track of the order of nodes
+                nodesInOrder.add(n);
                 suburbDets = br.readLine();
             }
 
-// Close and reopen the reader
+            // Close and reopen the reader to prevent excess memory being used.
             br.close();
             br = new BufferedReader(new FileReader(suburbsFile));
 
-// Reset suburbDets for the second pass
+            // Reset suburbDets for the second pass
             suburbDets = br.readLine();
 
-// Second pass - add edges
+            // Second pass - add edges
             while(suburbDets != null){
                 String[] lineItems = suburbDets.split("\t");
                 Node n = nodesInOrder.get(nodesInOrder.indexOf(new Node(Integer.parseInt(lineItems[0]), lineItems[1])));
@@ -63,16 +81,18 @@ public class Navigation {
                 }
                 suburbDets = br.readLine();
             }
+            br.close();
 
             //Add Amenities
             File amenitiesFile = new File("Files/amenities.txt");
             br = new BufferedReader(new FileReader(amenitiesFile));
             String amenities = br.readLine();
             while(amenities != null) {
+                //Splits the first element in the line
                 String[] lineItems = amenities.split(",");
                 String nodeName = lineItems[0];
                 int colonIndex = nodeName.indexOf(':');
-
+                //Adds the Amenities to the node
                 if(colonIndex != -1){
                     Node node = graph.getNode(nodeName.substring(0, colonIndex));
                     String firstAmenity = nodeName.substring(colonIndex + 1);
@@ -93,6 +113,11 @@ public class Navigation {
     }
 
 
+    /**
+     * GetAllAmenities method
+     * @param postcode Integer representation of the area to search for amenities
+     * @return Set of Strings, containing all the amenities within the postcode
+     */
     public Set<String> getAllAmenities(int postcode){
         HashSet<String> amenitiesSet = new HashSet<>();
         for(Node node: graph.getNodeNames().values()){
@@ -106,6 +131,11 @@ public class Navigation {
         return amenitiesSet;
     }
 
+    /**
+     * GetAllSuburbs method
+     * @param amenity String representation of the amenity to search for
+     * @return List of Strings, containing all the suburbs where the amenity can be found
+     */
     public List<String> getAllSuburbs(String amenity){
         ArrayList<String> locationList = new ArrayList<>();
         for(Node node: graph.getNodeNames().values()){
@@ -119,6 +149,11 @@ public class Navigation {
         return locationList;
     }
 
+    /**
+     * AddToVisitedPlaces method
+     * @param location String representation of the Node name that has been visited
+     * @param time LocalDate representation the date of the visit
+     */
     public void addToVisitedPlaces(String location, LocalDate time){
         if(graph.nodeNames.containsKey(location)){
             PlacesVisited placesVisited = new PlacesVisited(location, time);
@@ -129,6 +164,11 @@ public class Navigation {
 
     }
 
+    /**
+     * GetVisitedPlaces method
+     * @return List of PlacesVisited, containing the Dates and Location that have been visited,
+     * sorted by date visited
+     */
     public List <PlacesVisited> getVisitedPlaces(){
         List<PlacesVisited> visitedPlaces = new ArrayList<>();
         for (PlacesVisited placesVisited : visited) {
@@ -151,6 +191,11 @@ public class Navigation {
 
     }
 
+    /**
+     * GetDate method
+     * @param location String representation of the Node name to search for
+     * @return List of LocalDate, containing the dates when the Node was visited
+     */
     public List <LocalDate> getDate(String location){
         if(!graph.nodeNames.containsKey(location)){
             throw new IllegalArgumentException("Location does not exist");
@@ -167,6 +212,17 @@ public class Navigation {
         return daysVisited;
     }
 
+    /**
+     * CalculateShortestDistance method
+     * Implements Dijkstra's algorithm to determine the shortest distance
+     * between Nodes.
+     * @param source Node object, representing the place to start point for
+     *              the shortest distance search
+     * @return Map of containing Strings and Object, this actually stores two
+     * Maps in it which contain
+     * details about how far away each location is and what the previous Node
+     * is.
+     */
     public Map<String, Object> calculateShortestDistances(Node source) {
         if(!graph.nodeNames.containsKey(source.getSuburb())){
             throw new IllegalArgumentException("Source is not part of graph");
@@ -210,6 +266,14 @@ public class Navigation {
         return results;
     }
 
+    /**
+     * GetShortestPath method
+     * Using calculateShortestDistances(), it calculates the shortest path
+     * between a source and target Node
+     * @param source Node representing the start of the shortest path search
+     * @param target Node representing the end of the shortest path search
+     * @return List of Strings, representing the shortest path between two Nodes.
+     */
     public List<String> getShortestPath(Node source, Node target){
         if(!graph.nodeNames.containsKey(source.getSuburb()) || !graph.nodeNames.containsKey(target.getSuburb())){
             throw new IllegalArgumentException("Source is not part of graph");
@@ -230,6 +294,15 @@ public class Navigation {
         }
     }
 
+    /**
+     * GetShortestPath method
+     * Using calculateShortestDistances(), it calculates the shortest path
+     * between a source and a target amenity
+     * @param source Node representing the start of the shortest path search
+     * @param amenity String representing the amenity to find the nearest one
+     * @return List of Strings, representing the shortest path between the Node
+     * and the amenity along with the distance to reach it.
+     */
     public List<String> calculateDistanceToAmenity(Node source, String amenity){
         if(!graph.nodeNames.containsKey(source.getSuburb())){
             throw new IllegalArgumentException("Source is not part of graph");
@@ -261,6 +334,7 @@ public class Navigation {
         for (String node = closestAmenityNode.getSuburb(); node != null; node = previous.get(node)) {
             path.add(0, node);
         }
+        //Ensures that the final answer is a nice human-readable number
         BigDecimal bd = new BigDecimal(shortestDistance);
         if(shortestDistance < 10){
             bd = bd.round(new MathContext(2));
