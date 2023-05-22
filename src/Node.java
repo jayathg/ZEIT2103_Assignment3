@@ -3,8 +3,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The Graph class handles how the Graph is constructed.
- * This method adds Nodes, Edges and handles the subsequent removal methods
+ * The Node class handles how each Node is constructed.
+ * This method adds Postcodes, Suburbs, Adjacent Edges and Amenities and handles the subsequent removal methods
  *
  * @author Jayath Gunawardena
  * created on 19/05/2023
@@ -125,6 +125,7 @@ public class Node {
 
     /**
      * hashCode method
+     * Overrides the default hashCode method
      * @return Integer representation of the Node's hashcode
      */
     @Override
@@ -166,6 +167,7 @@ public class Node {
 
     /**
      * Equals method
+     * Overrides the default equals method
      * @param obj Object to compare against this node object
      * @return Boolean dependent on if the two objects are equal
      */
