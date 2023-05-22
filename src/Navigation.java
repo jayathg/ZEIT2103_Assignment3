@@ -17,8 +17,15 @@ public class Navigation {
 
 
     //Attributes
+
+    /**
+     * Graph used for the Navigation
+     */
     protected Graph graph;
 
+    /**
+     * ArrayList of PlacesVisited representing when and where places where visited
+     */
     protected ArrayList<PlacesVisited> visited;
 
     //Methods

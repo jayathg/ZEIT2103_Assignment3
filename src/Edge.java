@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * The Edge class handles how the edges between each Node and the destination works
  * This is done through various getter and setter methods
@@ -5,13 +7,17 @@
  * @author Jayath Gunawardena
  * created on 19/05/2023
  */
-public class Edge {
-
 
 public class Edge {
 
-    private Node destination;
-    private Double distance;
+    /**
+     * Node representation of the Destination of the Edge
+     */
+    private final Node destination;
+    /**
+     * Double representation of length of Edge
+     */
+    private final Double distance;
 
     //Methods
 
@@ -50,6 +56,7 @@ public class Edge {
     public String toString() {
         return "Destination: " + destination + "\nDistance: " + distance;
     }
+
 
     @Override
     public boolean equals(Object o) {

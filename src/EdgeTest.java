@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EdgeTest {
@@ -25,8 +24,6 @@ class EdgeTest {
         String expected = "Destination: Node{" +
                 "postCode=" + 5432 +
                 ", suburb='Test Suburb" + '\'' +
-                ", adj=" + new ArrayList<>() +
-                ", amenity=" + new ArrayList<>() +
                 "}\nDistance: " + 10.5;
         assertEquals(expected, edge.toString());
     }
