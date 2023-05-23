@@ -1,5 +1,9 @@
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NodeTest {
@@ -130,7 +134,7 @@ class NodeTest {
         ArrayList<Node> collisionList = new ArrayList<>();
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "abcdefghijklmnopqrstuvxyz";
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10000000; i++) {
             StringBuilder sb = new StringBuilder(9);
             for (int j = 0; j < 9; j++) {
                 int index
@@ -145,7 +149,22 @@ class NodeTest {
                 collisionList.add(testNode);
             }
         }
-        assertTrue(collisionList.size() < 750);
+
+        assertTrue(collisionList.size() < 5);
+    }
+
+    @Test
+    void hashCode_CollisionTest_GivenData_True(){
+        Navigation nav = new Navigation();
+
+        HashMap<String, Node> nodeNames = nav.graph.nodeNames;
+        ArrayList<Integer> collisionList = new ArrayList<>();
+        for (HashMap.Entry<String, Node> set :
+                nodeNames.entrySet()) {
+            collisionList.add(set.getValue().hashCode());
+        }
+        Set<Integer> collisionSet = new HashSet<>(collisionList);
+        assertEquals(collisionSet.size(),collisionList.size());
     }
       
     @Test

@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -149,25 +150,36 @@ public class Node {
     @Override
     public int hashCode() {
         String hashString = this.suburb + this.postCode;
+        hashString = hashString.replaceAll("\\s+","");
 
-        //Pads the hashString to be an even length
+        // Pads the hashString to be an even length
         if(hashString.length() % 2 == 1){
-            hashString = hashString + 0;
+            hashString = hashString + "0";
         }
 
-        //Converts hashString to an integer
-        int hashInt = 0;
+        // Converts hashString to a BigInteger to hold large values
+        BigInteger hashValue = BigInteger.ZERO;
         for (int i = 0; i < hashString.length(); i++) {
-            hashInt += hashString.charAt(i);
+            hashValue = hashValue.multiply(BigInteger.valueOf(31)).add(BigInteger.valueOf(hashString.charAt(i)));
         }
 
-        //Take hashString value and squares it
-        String squareHash = String.valueOf(hashInt * hashInt);
+        // Squares the BigInteger
+        hashValue = hashValue.multiply(hashValue);
 
-        //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
+        String squareHash = hashValue.toString();
+
+        // Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
         int[] hashArr = new int[squareHash.length()/2];
         for (int i = 0; i < squareHash.length()/2; i++) {
             hashArr[i] = (Integer.parseInt(String.valueOf(squareHash.charAt(i))) + Integer.parseInt(String.valueOf(squareHash.charAt(squareHash.length()-(i+1))))) % 10;
+        }
+        for (int j = 0; j < 1; j++) {
+            // Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
+            int[] tempHashArr = new int[hashArr.length/2];
+            for (int i = 0; i < hashArr.length/2; i++) {
+                tempHashArr[i] = hashArr[i] + hashArr[hashArr.length-(i+1)] % 10;
+            }
+            hashArr = tempHashArr;
         }
 
         int tempInt = 0;
@@ -175,22 +187,10 @@ public class Node {
             tempInt = tempInt * 10 + j;
         }
 
-        //Square result
-        squareHash = String.valueOf(tempInt * tempInt);
-
-        //Get new number that is 0 + length, 1 + length -1 etc (mod 10 if necessary)
-        hashArr = new int[squareHash.length()/2];
-        for (int i = 0; i < squareHash.length()/2; i++) {
-            hashArr[i] = (Integer.parseInt(String.valueOf(squareHash.charAt(i))) + Integer.parseInt(String.valueOf(squareHash.charAt(squareHash.length()-(i+1))))) % 10;
-        }
-
-        tempInt = 0;
-        for (int j : hashArr) {
-            tempInt = tempInt * 10 + j;
-        }
-
         return tempInt;
     }
+
+
 
     /**
      * Equals method
