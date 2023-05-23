@@ -11,9 +11,9 @@ public class PlacesVisited {
 
     //Attributes
 
-    private String location;
+    private final String location;
 
-    private LocalDate date;
+    private final LocalDate date;
 
     //Methods
 

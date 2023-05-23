@@ -10,6 +10,9 @@ import java.util.HashMap;
 public class Graph {
 
     //Attributes
+    /**
+     * HashMap of String and Nodes of all Nodes in the Graph
+     */
     protected HashMap<String, Node> nodeNames;
 
     //Methods

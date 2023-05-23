@@ -11,10 +11,25 @@ import java.util.Objects;
  */
 public class Node {
 
+    /**
+     * Integer representation of the Node's postcode
+     */
     private int postCode;
-    private String suburb;
-    private ArrayList<Edge> adj;
-    private ArrayList<String> amenity;
+
+    /**
+     * String representation of the Node's suburb name
+     */
+    private final String suburb;
+
+    /**
+     * ArrayList of Edges that are adjacent to the Node
+     */
+    private final ArrayList<Edge> adj;
+
+    /**
+     * ArrayList of Strings of amenities that are in the Node
+     */
+    private final ArrayList<String> amenity;
 
     //Methods
 
@@ -24,9 +39,6 @@ public class Node {
      * @param suburb String Representation of the Node's suburb name attribute
      */
     public Node(int postCode, String suburb) {
-        if(String.valueOf(postCode).length() != 4) {
-            throw new IllegalArgumentException("Postcode must be 4 digits long");
-        }
 
         this.postCode = postCode;
         this.suburb = suburb;

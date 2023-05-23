@@ -169,7 +169,7 @@ public class Harness {
 
         // Test adding nodes to the graph
         graph.addNode(Amaroo);
-        graph.getNodeNames().size();
+        System.out.println(graph.getNodeNames().size());
 
         System.out.println(graph.getNode("Amaroo"));
 
@@ -216,7 +216,7 @@ public class Harness {
 
         try {
             assert "Canberra".equals(p1.getLocation())
-                    && p1.getDate().compareTo(LocalDate.of(2023, 2, 17)) == 0 : "PlacesVisited class failed";
+                    && p1.getDate().isEqual(LocalDate.of(2023, 2, 17)) : "PlacesVisited class failed";
             System.out.println("PlacesVisited class passed");
 
         } catch (AssertionError e) {
