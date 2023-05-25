@@ -28,8 +28,12 @@ public class Graph {
     /**
      * AddNode method
      * @param n Node which is to be put into the hashmap of nodes in the graph
+     * @throws NullPointerException if n Node is null
      */
     public void addNode(Node n) {
+        if(n == null) {
+            throw new NullPointerException("Node cannot be null");
+        }
         nodeNames.put(n.getSuburb(),n);
     }
 
@@ -39,8 +43,19 @@ public class Graph {
      * @param from Node which is the start of the Edge
      * @param to Node which is the destination of the Edge
      * @param distance Double which is the distance between the two nodes
+     * @throws NullPointerException if either Node is null
+     * @throws IllegalArgumentException if Nodes are identical or if distance is neg
      */
     public void addEdge(Node from, Node to, double distance){
+        if(from == null || to == null) {
+            throw new NullPointerException("Node cannot be null");
+        }
+        if(from.equals(to)) {
+            throw new IllegalArgumentException("The 'from' and 'to' nodes cannot be the same");
+        }
+        if(distance < 0) {
+            throw new IllegalArgumentException("Distance cannot be negative");
+        }
         Edge e = new Edge(to, distance);
         if(!from.getAdj().contains(e) || !to.getAdj().contains(e)){
             from.addAdj(e);

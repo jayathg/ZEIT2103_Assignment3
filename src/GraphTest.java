@@ -29,9 +29,29 @@ class GraphTest {
     }
 
     @Test
+    void addInvalidNode() {
+        Node invalidNode = null;
+        assertThrows(NullPointerException.class, () -> {
+            graph.addNode(invalidNode);
+        });
+    }
+
+    @Test
     void addEdge() {
         graph.addEdge(node1, node2, 10.0);
         assertTrue(node1.getAdj().contains(new Edge(node2, 10.0)));
+    }
+
+    @Test
+    void addInvalidEdge() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Duplicate Nodes
+            graph.addEdge(node1, node1, 10.0);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Invalid Distance
+            graph.addEdge(node1, node2, -10.0);
+        });
     }
 
     @Test
@@ -46,7 +66,6 @@ class GraphTest {
         graph.removeNode(node1);
         assertNull(graph.getNode("Suburb1"));
     }
-
 
     @Test
     void getNode() {
