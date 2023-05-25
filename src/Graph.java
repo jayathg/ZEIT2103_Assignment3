@@ -67,9 +67,9 @@ public class Graph {
      */
     public void removeNode(Node node){
         for(Edge edge : node.getAdj() ){
-             node.removeAdj(edge);
+            node.removeAdj(edge);
         }
-        nodeNames.remove(node);
+        nodeNames.remove(node.getSuburb());
     }
 
     /**
