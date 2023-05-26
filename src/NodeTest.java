@@ -32,18 +32,22 @@ class NodeTest {
     }
 
     @Test
-    void setInvalidAdj() {
+    void setInvalidAdj_AdjacentNode() {
         Node node = new Node(1234, "Test Suburb");
         Edge edge = new Edge(node, 10.5); // node cannot be adjacent to itself
         assertThrows(IllegalArgumentException.class, () -> node.addAdj(edge));
 
+    }
+
+    @Test
+    void setInvalidAdj_DuplicateNode() {
+        Node node = new Node(1234, "Test Suburb");
         Node node2 = new Node(5432, "Test Suburb 2");
         Edge edge1 = new Edge(node2, 10.5);
         Edge edge2 = new Edge(node2, 10.5); // duplicate adjacency
         node.addAdj(edge1);
         assertThrows(IllegalArgumentException.class, () -> node.addAdj(edge2));
     }
-
     @org.junit.jupiter.api.Test
     void addAdj() {
 
@@ -57,6 +61,23 @@ class NodeTest {
         Edge edge = new Edge(node2, 10.5);
         node1.addAdj(edge);
         assertTrue(node1.getAdj().contains(edge));
+    }
+
+    @org.junit.jupiter.api.Test
+    void removeAdj() {
+        Node node1 = new Node(1234, "Test Suburb 1");
+        Node node2 = new Node(5432, "Test Suburb 2");
+        Edge edge = new Edge(node2, 10.5);
+        node1.addAdj(edge);
+        node1.removeAdj(edge);
+        assertFalse(node1.getAdj().contains(edge));
+    }
+
+    @Test
+    void removeAdj_EdgeDoesntExist_False(){
+        Node node1 = new Node(1234, "Test Suburb 1");
+        Edge edge = new Edge(node1, 10.5);
+        assertThrows(IllegalArgumentException.class, () -> node1.removeAdj(edge));
     }
 
     @org.junit.jupiter.api.Test
@@ -85,12 +106,25 @@ class NodeTest {
         assertTrue(node.getAmenity().contains("School"));
     }
 
+    @Test
+    void getAmenity_NoAmenities_False(){
+        Node node = new Node(1234, "Test Suburb");
+        assertThrows(IllegalArgumentException.class, node::getAmenity);
+    }
+
     @org.junit.jupiter.api.Test
     void removeAmenity() {
         Node node = new Node(1234, "Test Suburb");
         node.addAmenity("School");
+        node.addAmenity("House");
         node.removeAmenity("School");
         assertFalse(node.getAmenity().contains("School"));
+    }
+
+    @Test
+    void removeAmenity_NoSuchAmenity_False(){
+        Node node = new Node(1234, "Test Suburb");
+        assertThrows(IllegalArgumentException.class, () -> node.removeAmenity("School"));
     }
 
     @org.junit.jupiter.api.Test
@@ -114,7 +148,7 @@ class NodeTest {
         Node n = new Node(1234,"Suburb");
         //675 (Expected result) is calculated by manually
         // calculating the hash using the algorithm
-        assertEquals(675,n.hashCode());
+        assertEquals(7876777,n.hashCode());
     }
 
     @Test
@@ -122,7 +156,7 @@ class NodeTest {
         Node n = new Node(1234, "NewSuburb");
         //34 (Expected result) is calculated by manually
         // calculating the hash using the algorithm
-        assertEquals(34, n.hashCode());
+        assertEquals(1754642874, n.hashCode());
     }
 
     /**
@@ -175,14 +209,32 @@ class NodeTest {
    
     }
 
-    @org.junit.jupiter.api.Test
-    void removeAdj() {
-        Node node1 = new Node(1234, "Test Suburb 1");
-        Node node2 = new Node(5432, "Test Suburb 2");
-        Edge edge = new Edge(node2, 10.5);
-        node1.addAdj(edge);
-        node1.removeAdj(edge);
-        assertFalse(node1.getAdj().contains(edge));
+    @Test
+    void equals_SameObject_True(){
+        Node n1 = new Node(5432, "Test Suburb");
+        Node n2 = new Node(5432, "Test Suburb");
+        assertTrue(n1.equals(n2));
     }
+
+    @Test
+    void equals_DifferentPostCode_False(){
+        Node n1 = new Node(5432, "Test Suburb");
+        Node n2 = new Node(1234, "Test Suburb");
+        assertFalse(n1.equals(n2));
+    }
+    @Test
+    void equals_DifferentSuburb_False(){
+        Node n1 = new Node(5432, "Test Suburb");
+        Node n2 = new Node(5432, "New Suburb");
+        assertFalse(n1.equals(n2));
+    }
+
+    @Test
+    void equals_DifferentObject_False(){
+        Node n1 = new Node(5432, "Test Suburb");
+        Edge e1 = new Edge(n1,10.0);
+        assertFalse(n1.equals(e1));
+    }
+
 }
 

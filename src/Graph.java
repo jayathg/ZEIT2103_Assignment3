@@ -68,23 +68,36 @@ public class Graph {
      * @param from Node which is the start of the Edge
      * @param to Node which is the destination of the Edge
      * @param distance Double which is the distance between the two nodes
+     * @throws IllegalArgumentException No Such Edge exists
+     * @throws NullPointerException Illegal Parameters
      */
     public void removeEdge(Node from, Node to, double distance){
+        if(from == null || to == null || distance <= 0){
+            throw new NullPointerException("Invalid Parameters");
+        }
         Edge e = new Edge(to, distance);
         if(from.getAdj().contains(e) || to.getAdj().contains(e)){
             from.removeAdj(e);
+        }else {
+            throw new IllegalArgumentException("No such Edge exists");
         }
     }
 
     /**
      * RemoveNode method
      * @param node Node which is to be removed from the graph
+     * @throws IllegalArgumentException - If node is not in Graph
      */
     public void removeNode(Node node){
-        for(Edge edge : node.getAdj() ){
-            node.removeAdj(edge);
+        if(nodeNames.containsValue(node)){
+            for(Edge edge : node.getAdj() ){
+                node.removeAdj(edge);
+            }
+            nodeNames.remove(node.getSuburb());
+        }else {
+            throw new IllegalArgumentException("No such Node");
         }
-        nodeNames.remove(node.getSuburb());
+
     }
 
     /**

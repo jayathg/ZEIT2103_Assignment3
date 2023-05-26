@@ -66,6 +66,7 @@ public class Node {
     /**
      * AddAdj method
      * @param e Edge to be added to the Node's adjacency ArrayList
+     * @throws IllegalArgumentException If the node is adjancent to itself or edge is already present
      */
     public void addAdj(Edge e){
         if (e.getDestination().equals(this)) {
@@ -93,9 +94,14 @@ public class Node {
     /**
      * RemoveAdj method
      * @param e Edge to be removed to the Node's adjacency ArrayList
+     * @throws IllegalArgumentException if theres no such edge
      */
     public void removeAdj(Edge e) {
-        adj.remove(e);
+        if(adj.contains(e)){
+            adj.remove(e);
+        }else{
+            throw new IllegalArgumentException("No such edge");
+        }
     }
 
     /**
@@ -117,17 +123,26 @@ public class Node {
     /**
      * GetAmenity method
      * @return List of String representations of the amenities that are in the Node's amenity ArrayList
+     * @throws IllegalArgumentException If there's no Amenity
      */
     public List<String> getAmenity() {
+        if(amenity.isEmpty()){
+            throw new IllegalArgumentException("Empty Amenity List");
+        }
         return amenity;
     }
 
     /**
      * RemoveAmenity method
      * @param Amenity String representation of an amenity to be removed to the Node's amenity ArrayList
+     * @throws IllegalArgumentException if there's no such amenity
      */
     public void removeAmenity(String Amenity) {
-        amenity.remove(Amenity);
+        if(amenity.contains(Amenity)){
+            amenity.remove(Amenity);
+        }else{
+            throw new IllegalArgumentException("No such amenity");
+        }
     }
 
     /**

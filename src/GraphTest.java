@@ -31,9 +31,7 @@ class GraphTest {
     @Test
     void addInvalidNode() {
         Node invalidNode = null;
-        assertThrows(NullPointerException.class, () -> {
-            graph.addNode(invalidNode);
-        });
+        assertThrows(NullPointerException.class, () -> graph.addNode(invalidNode));
     }
 
     @Test
@@ -43,11 +41,22 @@ class GraphTest {
     }
 
     @Test
-    void addInvalidEdge() {
+    void addEdge_NullNodes_False(){
+        Node n1 = null;
+        Node n2 = null;
+        assertThrows(NullPointerException.class, () -> graph.addEdge(n1,n2, 10));
+    }
+
+    @Test
+    void addInvalidEdge_DuplicateNode_False() {
         assertThrows(IllegalArgumentException.class, () -> {
             // Duplicate Nodes
             graph.addEdge(node1, node1, 10.0);
         });
+    }
+
+    @Test
+    void addInvalidEdge_InvalidDistance_False(){
         assertThrows(IllegalArgumentException.class, () -> {
             // Invalid Distance
             graph.addEdge(node1, node2, -10.0);
@@ -62,9 +71,27 @@ class GraphTest {
     }
 
     @Test
+    void removeEdge_NoSuchEdge_False(){
+        assertThrows(IllegalArgumentException.class, () -> graph.removeEdge(node1, node2, 10.0));
+    }
+
+    @Test
+    void removeEdge_InvalidParameters(){
+        Node n1 = null;
+        Node n2 = null;
+        assertThrows(NullPointerException.class, () -> graph.removeEdge(n1,n2, -3));
+    }
+
+    @Test
     void removeNode() {
         graph.removeNode(node1);
         assertNull(graph.getNode("Suburb1"));
+    }
+
+    @Test
+    void removeNode_NoSuchNode_False(){
+        Node n1 = new Node(1234, "Test Suburb");
+        assertThrows(IllegalArgumentException.class, () -> graph.removeNode(n1));
     }
 
     @Test
