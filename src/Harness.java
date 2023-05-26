@@ -185,7 +185,12 @@ public class Harness {
         graph.getNode("Amaroo").getAdj().size();
 
         // Test removing nodes from the graph
-        graph.removeNode(Ford);
+        try{
+            graph.removeNode(Ford);
+        }catch ( IllegalArgumentException e){
+            System.out.println("Unable to remove Ford as it does not exist in the graph");
+        }
+
 
         graph.getNode("Amaroo").getAdj().size();
         graph.getNodeNames().size();
