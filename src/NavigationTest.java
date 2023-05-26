@@ -13,7 +13,6 @@ class NavigationTest {
     }
 
     @Test
- 
     void loadData_ValidFile_True(){
         Navigation nav = new Navigation();
         assertFalse(nav.graph.nodeNames.isEmpty());

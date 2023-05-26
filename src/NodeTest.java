@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +43,7 @@ class NodeTest {
         node.addAdj(edge1);
         assertThrows(IllegalArgumentException.class, () -> node.addAdj(edge2));
     }
+
     @org.junit.jupiter.api.Test
     void addAdj() {
 
@@ -100,8 +102,6 @@ class NodeTest {
                 '}';
         assertEquals(expected, node.toString());
     }
-   
-      
 
     @org.junit.jupiter.api.Test
     void testHashCode() {

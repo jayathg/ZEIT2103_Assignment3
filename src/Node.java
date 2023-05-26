@@ -190,8 +190,6 @@ public class Node {
         return tempInt;
     }
 
-
-
     /**
      * Equals method
      * Overrides the default equals method
