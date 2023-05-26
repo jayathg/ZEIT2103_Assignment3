@@ -8,6 +8,7 @@ import java.util.Objects;
  * This method adds Postcodes, Suburbs, Adjacent Edges and Amenities and handles the subsequent removal methods
  *
  * @author Jayath Gunawardena
+ *         Thomas Stones
  * created on 19/05/2023
  */
 public class Node {

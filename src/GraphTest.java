@@ -82,4 +82,26 @@ class GraphTest {
         graph.addNode(node1);
         assertEquals(3, graph.getNodeNames().size());
     }
+
+    @Test
+    void removeMissingNode() {
+        Node nonExistentNode = new Node(9999, "NonExistentSuburb");
+        assertThrows(IllegalArgumentException.class, () -> {
+            graph.removeNode(nonExistentNode);
+        });
+    }
+
+    @Test
+    void removeMissingEdge() {
+        Node node4 = new Node(1237, "Suburb4");
+        assertThrows(IllegalArgumentException.class, () -> {
+            graph.removeEdge(node1, node4, 10.0);
+        });
+    }
+
+    @Test
+    void getMissingNode() {
+        assertNull(graph.getNode("NonExistentSuburb"));
+    }
+
 }

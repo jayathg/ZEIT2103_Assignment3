@@ -352,6 +352,4 @@ public class Navigation {
         path.add(String.valueOf(shortestDistance));
         return path;
     }
-
-
 }

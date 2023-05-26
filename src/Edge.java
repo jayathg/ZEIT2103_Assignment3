@@ -5,6 +5,7 @@ import java.util.Objects;
  * This is done through various getter and setter methods
  *
  * @author Jayath Gunawardena
+ *         Thomas Stones
  * created on 19/05/2023
  */
 
@@ -56,7 +57,6 @@ public class Edge {
     public String toString() {
         return "Destination: " + destination + "\nDistance: " + distance;
     }
-
 
     @Override
     public boolean equals(Object o) {
