@@ -123,12 +123,8 @@ public class Node {
     /**
      * GetAmenity method
      * @return List of String representations of the amenities that are in the Node's amenity ArrayList
-     * @throws IllegalArgumentException If there's no Amenity
      */
     public List<String> getAmenity() {
-        if(amenity.isEmpty()){
-            throw new IllegalArgumentException("Empty Amenity List");
-        }
         return amenity;
     }
 

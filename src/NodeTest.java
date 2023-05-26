@@ -106,12 +106,6 @@ class NodeTest {
         assertTrue(node.getAmenity().contains("School"));
     }
 
-    @Test
-    void getAmenity_NoAmenities_False(){
-        Node node = new Node(1234, "Test Suburb");
-        assertThrows(IllegalArgumentException.class, node::getAmenity);
-    }
-
     @org.junit.jupiter.api.Test
     void removeAmenity() {
         Node node = new Node(1234, "Test Suburb");
