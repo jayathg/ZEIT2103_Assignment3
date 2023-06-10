@@ -49,7 +49,7 @@ public class Navigation {
     public void loadData(){
         try{
             //Add Nodes to the graph
-            File suburbsFile = new File("Files/suburbs_dist.txt");
+            File suburbsFile = new File("Files/au_postcodesNew.txt");
             BufferedReader br = new BufferedReader(new FileReader(suburbsFile));
             String suburbDets = br.readLine();
             List<Node> nodesInOrder = new ArrayList<>();
@@ -66,53 +66,7 @@ public class Navigation {
 
             // Close and reopen the reader to prevent excess memory being used.
             br.close();
-            br = new BufferedReader(new FileReader(suburbsFile));
 
-            // Reset suburbDets for the second pass
-            suburbDets = br.readLine();
-
-            // Second pass - add edges
-            while(suburbDets != null){
-                String[] lineItems = suburbDets.split("\t");
-                Node n = nodesInOrder.get(nodesInOrder.indexOf(new Node(Integer.parseInt(lineItems[0]), lineItems[1])));
-
-                // Add Adjacency
-                for (int j = 2; j < lineItems.length; j++) {
-                    if(!lineItems[j].isEmpty() && !lineItems[j].equals("0")){
-                        Node adjNode = nodesInOrder.get(j-2); // get the node from the list
-                        Edge e = new Edge(adjNode,Double.parseDouble(lineItems[j]));
-                        if(!n.getAdj().contains(e)){
-                            n.addAdj(e);
-                        }
-                    }
-                }
-                suburbDets = br.readLine();
-            }
-            br.close();
-
-            //Add Amenities
-            File amenitiesFile = new File("Files/amenities.txt");
-            br = new BufferedReader(new FileReader(amenitiesFile));
-            String amenities = br.readLine();
-            while(amenities != null) {
-                //Splits the first element in the line
-                String[] lineItems = amenities.split(",");
-                String nodeName = lineItems[0];
-                int colonIndex = nodeName.indexOf(':');
-                //Adds the Amenities to the node
-                if(colonIndex != -1){
-                    Node node = graph.getNode(nodeName.substring(0, colonIndex));
-                    String firstAmenity = nodeName.substring(colonIndex + 1);
-                    if (!firstAmenity.isEmpty()) {
-                        node.addAmenity(firstAmenity);
-                    }
-                    for (int j = 1; j < lineItems.length; j++) {
-                        node.addAmenity(lineItems[j]);
-                    }
-                }
-                amenities = br.readLine();
-            }
-            br.close();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
